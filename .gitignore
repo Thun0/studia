@@ -4,4 +4,5 @@
 *.suo
 *.filters
 *.vcxproj
+*.opensdf
 Debug/
