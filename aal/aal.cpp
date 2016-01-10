@@ -56,9 +56,6 @@ void readData()
     }
 }
 
-bool cmp(void* a, void* b)
-{}
-
 void Dijkstra()
 {
     std::priority_queue<Times, std::vector<Times>, Comparator> Q;
