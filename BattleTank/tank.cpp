@@ -1,4 +1,5 @@
 #include "tank.h"
+#include <cstdio>
 
 GLfloat Tank::hullVertices[] =		{	
 										-3, 0.5, 2,
@@ -92,6 +93,10 @@ GLuint Tank::gunIndices[] =			{
 										2, 3, 4, 7,
 									};
 
+float Tank::turretSpeed = 0.04;
+float Tank::turnSpeed = 0.02;
+float Tank::speed = 0.02;
+
 Tank::Tank()
 {
 	hullISize = 24;
@@ -100,19 +105,18 @@ Tank::Tank()
 	gunISize = 24;
 	hullAngle = 0;
 	turretAngle = 0;
+	x = 0;
+	z = 0;
 }
 
 void Tank::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
-	hullAngle += 0.02;
-	if (hullAngle > 360)
-		hullAngle -= 360;
-	glTranslatef(0, 0, -10);
+	glTranslatef(x, 0, -10+z);
 	drawHull();
 	drawTurret();
-	drawTracks();
 	drawGun();
+	drawTracks();
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -120,7 +124,7 @@ void Tank::drawHull()
 {
 	glVertexPointer(3, GL_FLOAT, 0, hullVertices);
 	glPushMatrix();
-	glRotatef(hullAngle, 1.0, 1.0, 1.0);
+	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(0.2, 0.7, 0.2);
 
 	glDrawElements(GL_QUADS, hullISize, GL_UNSIGNED_INT, hullIndices);
@@ -131,7 +135,7 @@ void Tank::drawTurret()
 {
 	glVertexPointer(3, GL_FLOAT, 0, turretVertices);
 	glPushMatrix();
-	glRotatef(hullAngle, 1.0, 1.0, 1.0);
+	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.0);
 
 	glDrawElements(GL_QUADS, turretISize, GL_UNSIGNED_INT, turretIndices);
@@ -142,7 +146,7 @@ void Tank::drawGun()
 {
 	glVertexPointer(3, GL_FLOAT, 0, gunVertices);
 	glPushMatrix();
-	glRotatef(hullAngle, 1.0, 1.0, 1.0);
+	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.8);
 
 	glDrawElements(GL_QUADS, gunISize, GL_UNSIGNED_INT, gunIndices);
@@ -153,11 +157,51 @@ void Tank::drawTracks()
 {
 	glVertexPointer(3, GL_FLOAT, 0, tracksVertices);
 	glPushMatrix();
-	glRotatef(hullAngle, 1.0, 1.0, 1.0);
+	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(0.1, 0.5, 1.0);
 
 	glDrawElements(GL_QUADS, tracksISize, GL_UNSIGNED_INT, tracksIndices);
 	glPopMatrix();
+}
+
+void Tank::forward(bool a)
+{
+	isForward = a;
+}
+
+void Tank::backward(bool a)
+{
+	isBackward = a;
+}
+
+void Tank::turnLeft(bool a)
+{
+	isLeft = a;
+}
+
+void Tank::turnRight(bool a)
+{
+	isRight = a;
+}
+
+void Tank::turnTurretLeft(bool a)
+{
+	turretLeft = a;
+}
+
+void Tank::turnTurretRight(bool a)
+{
+	turretRight = a;
+}
+
+void Tank::update(int delta)
+{
+	//printf("%d\n", delta);
+	if (turretRight && !turretLeft)
+		turretAngle += turretSpeed*delta;
+	else if (!turretRight && turretLeft)
+		turretAngle -= turretSpeed*delta;
+
 }
 
 Tank::~Tank()

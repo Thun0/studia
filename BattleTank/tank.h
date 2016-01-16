@@ -16,6 +16,9 @@ class Tank
 	static GLuint tracksIndices[];
 	static GLfloat gunVertices[];
 	static GLuint gunIndices[];
+	static float turretSpeed;
+	static float turnSpeed;
+	static float speed;
 	int hullISize;
 	int turretISize;
 	int tracksISize;
@@ -24,8 +27,23 @@ class Tank
 	void drawTurret();
 	void drawTracks();
 	void drawGun();
+	float x;
+	float z;
+	bool isForward;
+	bool isBackward;
+	bool isLeft;
+	bool isRight;
+	bool turretRight;
+	bool turretLeft;
 public:
+	void forward(bool);
+	void backward(bool);
+	void turnLeft(bool);
+	void turnRight(bool);
+	void turnTurretLeft(bool);
+	void turnTurretRight(bool);
 	void draw();
+	void update(int);
 	Tank();
 	~Tank();
 };
