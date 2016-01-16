@@ -3,7 +3,7 @@
 #include <windows.h>
 #include "tank.h"
 #include "world.h"
-#include <cstdio>
+
 const int WINDOW_WIDTH = 600;
 const int WINDOW_HEIGHT = 600;
 
@@ -33,6 +33,7 @@ void init()
 	glutKeyboardUpFunc(keyUp);
 	glutSpecialFunc(specialDown);
 	glutSpecialUpFunc(specialUp);
+	glutIgnoreKeyRepeat(1);
 	//glShadeModel(GL_SMOOTH);							
 	//glClearDepth(1.0f);									
 	glEnable(GL_DEPTH_TEST);							
@@ -56,11 +57,11 @@ void keyUp(unsigned char key, int x, int y)
 {
 	if (key == 'z')
 	{
-		tank.turnTurretRight(false);
+		tank.turnTurretLeft(false);
 	}
 	if (key == 'x')
 	{
-		tank.turnTurretLeft(false);
+		tank.turnTurretRight(false);
 	}
 }
 
@@ -73,21 +74,52 @@ void keyDown(unsigned char key, int x, int y)
 
 	if (key == 'z')
 	{
-		tank.turnTurretRight(true);
+		tank.turnTurretLeft(true);
 	}
 	if (key == 'x')
 	{
-		tank.turnTurretLeft(true);
+		tank.turnTurretRight(true);
 	}
 }
 
 void specialUp(int key, int x, int y)
 {
+	if (key == GLUT_KEY_LEFT)
+	{
+		tank.turnLeft(false);
+	}
+	if (key == GLUT_KEY_RIGHT)
+	{
+		tank.turnRight(false);
+	}
+	if (key == GLUT_KEY_UP)
+	{
+		tank.forward(false);
+	}
+	if (key == GLUT_KEY_DOWN)
+	{
+		tank.backward(false);
+	}
 }
 
 void specialDown(int key, int x, int y)
 {
-	
+	if (key == GLUT_KEY_LEFT)
+	{
+		tank.turnLeft(true);
+	}
+	if (key == GLUT_KEY_RIGHT)
+	{
+		tank.turnRight(true);
+	}
+	if (key == GLUT_KEY_UP)
+	{
+		tank.forward(true);
+	}
+	if (key == GLUT_KEY_DOWN)
+	{
+		tank.backward(true);
+	}
 }
 
 void update(int delta)

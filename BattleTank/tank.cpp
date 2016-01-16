@@ -1,5 +1,6 @@
 #include "tank.h"
-#include <cstdio>
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 GLfloat Tank::hullVertices[] =		{	
 										-3, 0.5, 2,
@@ -93,9 +94,9 @@ GLuint Tank::gunIndices[] =			{
 										2, 3, 4, 7,
 									};
 
-float Tank::turretSpeed = 0.04;
-float Tank::turnSpeed = 0.02;
-float Tank::speed = 0.02;
+float Tank::turretSpeed = 0.20;
+float Tank::turnSpeed = 0.14;
+float Tank::speed = 0.07;
 
 Tank::Tank()
 {
@@ -107,12 +108,19 @@ Tank::Tank()
 	turretAngle = 0;
 	x = 0;
 	z = 0;
+	isLeft = false;
+	isRight = false;
+	isForward = false;
+	isBackward = false;
+	turretRight = false;
+	turretLeft = false;
+
 }
 
 void Tank::draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glTranslatef(x, 0, -10+z);
+	glTranslatef(x, 0, -20+z);
 	drawHull();
 	drawTurret();
 	drawGun();
@@ -194,14 +202,30 @@ void Tank::turnTurretRight(bool a)
 	turretRight = a;
 }
 
+#include <cstdio>
 void Tank::update(int delta)
 {
-	//printf("%d\n", delta);
 	if (turretRight && !turretLeft)
-		turretAngle += turretSpeed*delta;
-	else if (!turretRight && turretLeft)
 		turretAngle -= turretSpeed*delta;
-
+	else if (!turretRight && turretLeft)
+		turretAngle += turretSpeed*delta;
+	if (isLeft && !isRight)
+		hullAngle += turnSpeed*delta;
+	if (!isLeft && isRight)
+		hullAngle -= turnSpeed*delta;
+	float angle = (hullAngle) * M_PI / 180;
+	if (isForward && !isBackward)
+	{
+		x -= cos(angle)*speed*delta;
+		z += sin(angle)*speed*delta;
+		printf("%f %f\n", sin(angle), cos(angle));
+	}
+	if (isBackward && !isForward)
+	{
+		x += cos(angle)*speed*delta;
+		z -= sin(angle)*speed*delta;
+		printf("%f %f\n", sin(angle), cos(angle));
+	}
 }
 
 Tank::~Tank()
