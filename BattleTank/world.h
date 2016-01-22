@@ -6,12 +6,17 @@
 
 class World
 {
-	static GLfloat vertices[];
-	static GLuint indices[];
+	GLuint floorTexture;
+	const static GLfloat vertices[];
+	const static GLfloat normals[];
+	const static GLfloat uvData[];
+	const static int map[10][10];
 	void drawFloor();
 	void drawSkybox();
+	void drawMap();
 public:
 	void draw();
+	void init();
 	World();
 	~World();
 };

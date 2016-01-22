@@ -99,6 +99,9 @@ float Tank::turnSpeed = 0.14;
 float Tank::speed = 0.07;
 
 Tank::Tank()
+{}
+
+void Tank::init()
 {
 	hullISize = 24;
 	turretISize = 24;
@@ -114,18 +117,19 @@ Tank::Tank()
 	isBackward = false;
 	turretRight = false;
 	turretLeft = false;
-
 }
 
 void Tank::draw()
 {
+	glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glTranslatef(x, 0, -20+z);
+	glTranslatef(x, 0, z);
 	drawHull();
 	drawTurret();
 	drawGun();
 	drawTracks();
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
 }
 
 void Tank::drawHull()
@@ -202,7 +206,6 @@ void Tank::turnTurretRight(bool a)
 	turretRight = a;
 }
 
-#include <cstdio>
 void Tank::update(int delta)
 {
 	if (turretRight && !turretLeft)
@@ -218,13 +221,11 @@ void Tank::update(int delta)
 	{
 		x -= cos(angle)*speed*delta;
 		z += sin(angle)*speed*delta;
-		printf("%f %f\n", sin(angle), cos(angle));
 	}
 	if (isBackward && !isForward)
 	{
 		x += cos(angle)*speed*delta;
 		z -= sin(angle)*speed*delta;
-		printf("%f %f\n", sin(angle), cos(angle));
 	}
 }
 

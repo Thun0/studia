@@ -36,6 +36,7 @@ class Tank
 	bool turretRight;
 	bool turretLeft;
 public:
+	void init();
 	void forward(bool);
 	void backward(bool);
 	void turnLeft(bool);

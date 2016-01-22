@@ -22,10 +22,11 @@ int oldTime = 0;
 
 void init()
 {
-	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	glutInitWindowPosition(0, 0);
 	glutCreateWindow("Battle Tank");
+
 	glutDisplayFunc(draw);
 	glutIdleFunc(draw);
 	glutReshapeFunc(reshape);
@@ -33,12 +34,16 @@ void init()
 	glutKeyboardUpFunc(keyUp);
 	glutSpecialFunc(specialDown);
 	glutSpecialUpFunc(specialUp);
-	glutIgnoreKeyRepeat(1);
-	//glShadeModel(GL_SMOOTH);							
-	//glClearDepth(1.0f);									
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);									
 	glEnable(GL_DEPTH_TEST);							
+	glEnable(GL_NORMALIZE);
 	glDepthFunc(GL_LEQUAL);								
-	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();                                // Reset The Projection Matrix
+	gluPerspective(45.0f, 1.0*WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 1000.0f);        // Calculate The Aspect Ratio Of The Window
+	glMatrixMode(GL_MODELVIEW);
 }
 
 void reshape(int w, int h)
@@ -48,7 +53,7 @@ void reshape(int w, int h)
 		glViewport(0, 0, w, h);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluPerspective(45, 1.0*w/h, 1, 1000);
+		gluPerspective(45, 1.0*w/h, 0.1, 1000);
 		glMatrixMode(GL_MODELVIEW);
 	}
 }
@@ -135,14 +140,13 @@ void draw()
 	update(delta);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(0, 0, -10);
-	tank.draw();
+	gluLookAt(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 	world.draw();
+	tank.draw();
 
-	glFlush();
+	//glFlush();
 	glutSwapBuffers();
 }
 
@@ -150,6 +154,9 @@ int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	init();
+
+	world.init();
+	tank.init();
 
 	glutMainLoop();
 
