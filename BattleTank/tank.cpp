@@ -1,24 +1,35 @@
 #include "tank.h"
+#include "world.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+float Tank::width = 1.5;
+
 GLfloat Tank::hullVertices[] =		{	
-										-3, 0.5, 2,
-										3, 0.5, 2,
-										3, 2, 2,
-										-3, 2, 2,
-										-3, 2, -2,
-										-3, 0.5, -2,
-										3, 0.5, -2,
-										3, 2, -2,
-									};
-GLuint Tank::hullIndices[] =		{
-										0, 1, 2, 3,
-										0, 3, 4, 5,
-										5, 4, 7, 6,
-										1, 2, 7, 6,
-										0, 1, 5, 6,
-										2, 3, 4, 7,
+										-0.75, 1, -0.75,
+										0.75, 1, -0.75,
+										0.75, 1, 0.75,
+										-0.75, 1, 0.75,		//gora
+
+										-0.75, 0, -0.75,
+										0.75, 0, -0.75,
+										0.75, 1, -0.75,
+										-0.75, 1, -0.75,		//przod
+
+										-0.75, 0, 0.75,
+										0.75, 0, 0.75,
+										0.75, 1, 0.75,
+										-0.75, 1, 0.75,		//tyl
+
+										-0.75, 0, -0.75,
+										-0.75, 1, -0.75,
+										-0.75, 1, 0.75,
+										-0.75, 0, 0.75,		//lewo
+
+										0.75, 0, -0.75,
+										0.75, 1, -0.75,
+										0.75, 1, 0.75,
+										0.75, 0, 0.75,		//prawo
 									};
 
 GLfloat Tank::turretVertices[] =	{
@@ -26,18 +37,11 @@ GLfloat Tank::turretVertices[] =	{
 										1.5, 2, 1,
 										1.5, 3, 1,
 										-1.5, 3, 1,
+
 										-1.5, 3, -1,
 										-1.5, 2, -1,
 										1.5, 2, -1,
 										1.5, 3, -1,
-									};
-GLuint Tank::turretIndices[] =		{
-										0, 1, 2, 3,
-										0, 3, 4, 5,
-										5, 4, 7, 6,
-										1, 2, 7, 6,
-										0, 1, 5, 6,
-										2, 3, 4, 7,
 									};
 
 GLfloat Tank::tracksVertices[] =	{
@@ -45,6 +49,7 @@ GLfloat Tank::tracksVertices[] =	{
 										3, -1, 2,
 										3, 0.5, 2,
 										-3, 0.5, 2,
+										
 										-3, 0.5, 1.5,
 										-3, -1, 1.5,
 										3, -1, 1.5,
@@ -54,62 +59,39 @@ GLfloat Tank::tracksVertices[] =	{
 										3, -1, -1.5,
 										3, 0.5, -1.5,
 										-3, 0.5, -1.5,
+
 										-3, 0.5, -2,
 										-3, -1, -2,
 										3, -1, -2,
 										3, 0.5, -2,
 									};
-GLuint Tank::tracksIndices[] =		{
-										0, 1, 2, 3,
-										0, 3, 4, 5,
-										5, 4, 7, 6,
-										1, 2, 7, 6,
-										0, 1, 5, 6,
-										2, 3, 4, 7,
 
-										8, 9, 10, 11,
-										8, 11, 12, 13,
-										13, 12, 15, 14,
-										9, 10, 15, 14,
-										8, 9, 13, 14,
-										10, 11, 12, 15,
-									};
 
 GLfloat Tank::gunVertices[] =		{
 										-1.5, 2.25, 0.25,
 										-5, 2.25, 0.25,
 										-5, 2.75, 0.25,
 										-1.5, 2.75, 0.25,
+
 										-1.5, 2.75, -0.25,
 										-1.5, 2.25, -0.25,
 										-5, 2.25, -0.25,
 										-5, 2.75, -0.25,
 									};
-GLuint Tank::gunIndices[] =			{
-										0, 1, 2, 3,
-										0, 3, 4, 5,
-										5, 4, 7, 6,
-										1, 2, 7, 6,
-										0, 1, 5, 6,
-										2, 3, 4, 7,
-									};
+
 
 float Tank::turretSpeed = 0.20;
 float Tank::turnSpeed = 0.14;
-float Tank::speed = 0.07;
+float Tank::speed = 0.01;
 
 Tank::Tank()
 {}
 
 void Tank::init()
 {
-	hullISize = 24;
-	turretISize = 24;
-	tracksISize = 48;
-	gunISize = 24;
 	hullAngle = 0;
 	turretAngle = 0;
-	x = 0;
+	x = -5;
 	z = 0;
 	isLeft = false;
 	isRight = false;
@@ -122,13 +104,12 @@ void Tank::init()
 void Tank::draw()
 {
 	glPushMatrix();
-	glScalef(0.3, 0.3, 0.3);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glTranslatef(x, 0, z);
 	drawHull();
-	drawTurret();
-	drawGun();
-	drawTracks();
+	//drawTurret();
+	//drawGun();
+	//drawTracks();
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
 }
@@ -140,7 +121,7 @@ void Tank::drawHull()
 	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(0.2, 0.7, 0.2);
 
-	glDrawElements(GL_QUADS, hullISize, GL_UNSIGNED_INT, hullIndices);
+	glDrawArrays(GL_QUADS, 0, 20);
 	glPopMatrix();	
 }
 
@@ -151,7 +132,7 @@ void Tank::drawTurret()
 	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.0);
 
-	glDrawElements(GL_QUADS, turretISize, GL_UNSIGNED_INT, turretIndices);
+	glDrawArrays(GL_QUADS, 0, 20);
 	glPopMatrix();
 }
 
@@ -162,7 +143,7 @@ void Tank::drawGun()
 	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.8);
 
-	glDrawElements(GL_QUADS, gunISize, GL_UNSIGNED_INT, gunIndices);
+	glDrawArrays(GL_QUADS, 0, 20);
 	glPopMatrix();
 }
 
@@ -173,7 +154,7 @@ void Tank::drawTracks()
 	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(0.1, 0.5, 1.0);
 
-	glDrawElements(GL_QUADS, tracksISize, GL_UNSIGNED_INT, tracksIndices);
+	glDrawArrays(GL_QUADS, 0, 20);
 	glPopMatrix();
 }
 
@@ -207,6 +188,39 @@ void Tank::turnTurretRight(bool a)
 	turretRight = a;
 }
 
+void Tank::checkCollisions(float newX, float newZ)
+{
+	bool badZ = false;
+	bool badX = false;
+	for (int i = 0; i < World::MAP_SIZE; ++i)
+	{//glTranslatef(j*WALL_SIZE-20, 0, i*WALL_SIZE-18);
+		for (int j = 0; j < World::MAP_SIZE; ++j)
+		{
+			if (World::map[i][j] == 0)
+				continue;
+			if (fabs(newX - (j*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2
+				&& fabs(newZ - (i*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2)
+			{
+				//printf("kolizja! %d %d // %f %f // %f %f\n", i, j, newX, newZ, x, z);
+				if ((fabs(x - (j*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2
+					&& fabs(newZ - (i*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2))
+				{
+					//printf("Z bad\n");
+					badZ = true;
+				}
+				if ((fabs(newX - (j*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2
+					&& fabs(z - (i*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2))
+				{
+					//printf("X bad\n");
+					badX = true;
+				}
+			}
+		}
+	}
+	if (!badX) x = newX;
+	if (!badZ) z = newZ;
+}
+
 void Tank::update(int delta)
 {
 	if (turretRight && !turretLeft)
@@ -218,15 +232,19 @@ void Tank::update(int delta)
 	if (!isLeft && isRight)
 		hullAngle -= turnSpeed*delta;
 	float angle = (hullAngle) * M_PI / 180;
+
+	float newX, newZ;
 	if (isForward && !isBackward)
 	{
-		x -= cos(angle)*speed*delta;
-		z += sin(angle)*speed*delta;
+		newX = x - cos(angle)*speed*delta;
+		newZ = z + sin(angle)*speed*delta;
+		checkCollisions(newX, newZ);	
 	}
 	if (isBackward && !isForward)
 	{
-		x += cos(angle)*speed*delta;
-		z -= sin(angle)*speed*delta;
+		newX = x + cos(angle)*speed*delta;
+		newZ = z - sin(angle)*speed*delta;
+		checkCollisions(newX, newZ);
 	}
 }
 

@@ -8,21 +8,14 @@ class Tank
 {
 	float hullAngle;
 	float turretAngle;
+	static float width;
 	static GLfloat hullVertices[];
-	static GLuint hullIndices[];
 	static GLfloat turretVertices[];
-	static GLuint turretIndices[];
 	static GLfloat tracksVertices[];
-	static GLuint tracksIndices[];
 	static GLfloat gunVertices[];
-	static GLuint gunIndices[];
 	static float turretSpeed;
 	static float turnSpeed;
 	static float speed;
-	int hullISize;
-	int turretISize;
-	int tracksISize;
-	int gunISize;
 	void drawHull();
 	void drawTurret();
 	void drawTracks();
@@ -35,6 +28,7 @@ class Tank
 	bool isRight;
 	bool turretRight;
 	bool turretLeft;
+	void checkCollisions(float, float);
 public:
 	void init();
 	void forward(bool);
