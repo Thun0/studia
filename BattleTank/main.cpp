@@ -17,6 +17,7 @@ void update();
 
 Tank tank;
 World world;
+bool camera[3];
 
 int oldTime = 0;
 
@@ -85,6 +86,24 @@ void keyDown(unsigned char key, int x, int y)
 	{
 		tank.turnTurretRight(true);
 	}
+	if (key == '1')
+	{
+		camera[0] = true;
+		camera[1] = false;
+		camera[2] = false;
+	}
+	if (key == '2')
+	{
+		camera[0] = false;
+		camera[1] = true;
+		camera[2] = false;
+	}
+	if (key == '3')
+	{
+		camera[0] = false;
+		camera[1] = false;
+		camera[2] = true;
+	}
 }
 
 void specialUp(int key, int x, int y)
@@ -142,7 +161,12 @@ void draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	gluLookAt(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f);
+	if (camera[0])
+		gluLookAt(0, 50, 0, 0, 0, 0, 0, 0, -1);
+	else if (camera[1])
+		gluLookAt(0, 50, 20, 0, 0, 0, 0, 0, -1);
+	else if (camera[2])
+		gluLookAt(25, 50, 20, 0, 0, 0, 0, 1, 0);
 	world.draw();
 	tank.draw();
 
@@ -154,6 +178,8 @@ int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	init();
+
+	camera[0] = true;
 
 	world.init();
 	tank.init();
