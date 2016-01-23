@@ -3,6 +3,8 @@
 
 #include "glut.h"
 #include <GL/gl.h>
+#include <vector>
+#include "projectile.h"
 
 class World
 {
@@ -17,6 +19,7 @@ class World
 	void drawFloor();
 	void drawMap();
 public:
+	static std::vector<Projectile> projectiles;
 	const static int MAP_SIZE;
 	const static int WALL_SIZE;
 	const static int map[20][20];

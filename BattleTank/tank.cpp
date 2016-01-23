@@ -1,36 +1,63 @@
 #include "tank.h"
 #include "world.h"
 #define _USE_MATH_DEFINES
-#include <cmath>
+#include <math.h>
 
 float Tank::width = 1.5;
 
-GLfloat Tank::hullVertices[] =		{	
-										-0.75, 1, -0.75,
-										0.75, 1, -0.75,
-										0.75, 1, 0.75,
-										-0.75, 1, 0.75,		//gora
+GLfloat Tank::hullVertices[] = {
+	-0.75, 1, -0.75,
+	0.75, 1, -0.75,
+	0.75, 1, 0.75,
+	-0.75, 1, 0.75,		//gora
 
-										-0.75, 0, -0.75,
-										0.75, 0, -0.75,
-										0.75, 1, -0.75,
-										-0.75, 1, -0.75,		//przod
+	-0.75, 0, -0.75,
+	0.75, 0, -0.75,
+	0.75, 1, -0.75,
+	-0.75, 1, -0.75,		//przod
 
-										-0.75, 0, 0.75,
-										0.75, 0, 0.75,
-										0.75, 1, 0.75,
-										-0.75, 1, 0.75,		//tyl
+	-0.75, 0, 0.75,
+	0.75, 0, 0.75,
+	0.75, 1, 0.75,
+	-0.75, 1, 0.75,		//tyl
 
-										-0.75, 0, -0.75,
-										-0.75, 1, -0.75,
-										-0.75, 1, 0.75,
-										-0.75, 0, 0.75,		//lewo
+	-0.75, 0, -0.75,
+	-0.75, 1, -0.75,
+	-0.75, 1, 0.75,
+	-0.75, 0, 0.75,		//lewo
 
-										0.75, 0, -0.75,
-										0.75, 1, -0.75,
-										0.75, 1, 0.75,
-										0.75, 0, 0.75,		//prawo
-									};
+	0.75, 0, -0.75,
+	0.75, 1, -0.75,
+	0.75, 1, 0.75,
+	0.75, 0, 0.75,		//prawo
+};
+
+GLfloat Tank::hullNormals[] = {
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+};
 
 GLfloat Tank::turretVertices[] =	{
 										-1.5, 2, 1,
@@ -43,29 +70,6 @@ GLfloat Tank::turretVertices[] =	{
 										1.5, 2, -1,
 										1.5, 3, -1,
 									};
-
-GLfloat Tank::tracksVertices[] =	{
-										-3, -1, 2,
-										3, -1, 2,
-										3, 0.5, 2,
-										-3, 0.5, 2,
-										
-										-3, 0.5, 1.5,
-										-3, -1, 1.5,
-										3, -1, 1.5,
-										3, 0.5, 1.5,
-
-										-3, -1, -1.5,
-										3, -1, -1.5,
-										3, 0.5, -1.5,
-										-3, 0.5, -1.5,
-
-										-3, 0.5, -2,
-										-3, -1, -2,
-										3, -1, -2,
-										3, 0.5, -2,
-									};
-
 
 GLfloat Tank::gunVertices[] =		{
 										-1.5, 2.25, 0.25,
@@ -103,25 +107,31 @@ void Tank::init()
 
 void Tank::draw()
 {
-	glPushMatrix();
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glTranslatef(x, 0, z);
 	drawHull();
 	//drawTurret();
 	//drawGun();
-	//drawTracks();
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glPopMatrix();
 }
 
 void Tank::drawHull()
 {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	GLfloat params[] = { 0.5, 1, 1, 1 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+
 	glVertexPointer(3, GL_FLOAT, 0, hullVertices);
+	glNormalPointer(GL_FLOAT, 0, hullNormals);
+
 	glPushMatrix();
 	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(0.2, 0.7, 0.2);
 
 	glDrawArrays(GL_QUADS, 0, 20);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glPopMatrix();	
 }
 
@@ -142,17 +152,6 @@ void Tank::drawGun()
 	glPushMatrix();
 	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.8);
-
-	glDrawArrays(GL_QUADS, 0, 20);
-	glPopMatrix();
-}
-
-void Tank::drawTracks()
-{
-	glVertexPointer(3, GL_FLOAT, 0, tracksVertices);
-	glPushMatrix();
-	glRotatef(hullAngle, 0.0, 1.0, 0.0);
-	glColor3f(0.1, 0.5, 1.0);
 
 	glDrawArrays(GL_QUADS, 0, 20);
 	glPopMatrix();
@@ -193,7 +192,7 @@ void Tank::checkCollisions(float newX, float newZ)
 	bool badZ = false;
 	bool badX = false;
 	for (int i = 0; i < World::MAP_SIZE; ++i)
-	{//glTranslatef(j*WALL_SIZE-20, 0, i*WALL_SIZE-18);
+	{
 		for (int j = 0; j < World::MAP_SIZE; ++j)
 		{
 			if (World::map[i][j] == 0)

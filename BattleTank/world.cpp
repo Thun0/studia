@@ -159,6 +159,9 @@ void World::drawFloor()
 	glPushMatrix(); 
 
 	GLfloat params[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+
 	glBindTexture(GL_TEXTURE_2D, floorTexture);
 	
 	glColor3f(1, 1, 1);
@@ -185,6 +188,11 @@ void World::drawMap()
 			if (map[i][j])
 			{
 				glPushMatrix();
+
+				GLfloat params[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glEnableClientState(GL_NORMAL_ARRAY);
@@ -193,7 +201,7 @@ void World::drawMap()
 				glTranslatef(j*WALL_SIZE-20, 0, i*WALL_SIZE-18);
 				glVertexPointer(3, GL_FLOAT, 0, wallVertices);
 				glTexCoordPointer(2, GL_FLOAT, 0, uvWallData);
-				glNormalPointer(GL_FLOAT, 0, normals);
+				glNormalPointer(GL_FLOAT, 0, wallNormals);
 				glDrawArrays(GL_QUADS, 0, 20);
 				glDisableClientState(GL_NORMAL_ARRAY);
 				glDisableClientState(GL_TEXTURE_COORD_ARRAY);

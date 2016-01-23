@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "tank.h"
 #include "world.h"
+#include "light.h"
 
 const int WINDOW_WIDTH = 900;
 const int WINDOW_HEIGHT = 900;
@@ -17,6 +18,7 @@ void update();
 
 Tank tank;
 World world;
+Light light;
 bool camera[3];
 
 int oldTime = 0;
@@ -76,6 +78,15 @@ void keyDown(unsigned char key, int x, int y)
 	if (key == 27)
 	{
 		exit(0);
+	}
+
+	if (key == 'w')
+	{
+		light.increase();
+	}
+	if (key == 'q')
+	{
+		light.decrease();
 	}
 
 	if (key == 'z')
@@ -167,6 +178,7 @@ void draw()
 		gluLookAt(0, 50, 20, 0, 0, 0, 0, 0, -1);
 	else if (camera[2])
 		gluLookAt(25, 50, 20, 0, 0, 0, 0, 1, 0);
+	light.update();
 	world.draw();
 	tank.draw();
 
@@ -178,11 +190,11 @@ int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	init();
-
 	camera[0] = true;
 
 	world.init();
 	tank.init();
+	light.init();
 
 	glutMainLoop();
 
