@@ -8,7 +8,6 @@ void Light::init()
 	glShadeModel(GL_SMOOTH);
 	GLfloat global_ambient[] = { 0.2, 0.2, 0.2, 0.2 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
-
 	glEnable(GL_LIGHT1);
 }
 
@@ -23,11 +22,9 @@ void Light::update()
 void Light::increase()
 {
 	intensity += 0.1;
-	update();
 }
 
 void Light::decrease()
 {
 	intensity -= 0.1;
-	update();
 }
