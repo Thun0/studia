@@ -77,17 +77,57 @@ const GLfloat World::wallVertices[] = {
 };
 
 const GLfloat World::wallNormals[] = {
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
 };
 
 const GLfloat World::uvWallData[] = {
-	0.0f, 0.0f,
-	0.0f, 8.0f,
-	8.0f, 8.0f,
-	8.0f, 0.0f
+	0, 0,
+	0, 1,
+	1, 1,
+	1, 0,
+
+	0, 0,
+	0, 1,
+	1, 1,
+	1, 0,
+
+	0, 0,
+	0, 1,
+	1, 1,
+	1, 0,
+
+	0, 0,
+	0, 1,
+	1, 1,
+	1, 0,
+
+	0, 0,
+	0, 1,
+	1, 1,
+	1, 0,
 };
 
 
@@ -100,6 +140,7 @@ World::~World()
 void World::init()
 {
 	floorTexture = loadTexture("bmp/floor.bmp");
+	wallTexture = loadTexture("bmp/wall.bmp");
 }
 
 void World::draw()
@@ -136,7 +177,7 @@ void World::drawFloor()
 
 void World::drawMap()
 {
-	//glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 	for (int i = 0; i < MAP_SIZE; ++i)
 	{
 		for (int j = 0; j < MAP_SIZE; ++j)
@@ -145,14 +186,21 @@ void World::drawMap()
 			{
 				glPushMatrix();
 				glEnableClientState(GL_VERTEX_ARRAY);
-				glColor3f(1, 0, 0);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glEnableClientState(GL_NORMAL_ARRAY);
+				glColor3f(1, 1, 1);
+				glBindTexture(GL_TEXTURE_2D, wallTexture);
 				glTranslatef(j*WALL_SIZE-20, 0, i*WALL_SIZE-18);
 				glVertexPointer(3, GL_FLOAT, 0, wallVertices);
+				glTexCoordPointer(2, GL_FLOAT, 0, uvWallData);
+				glNormalPointer(GL_FLOAT, 0, normals);
 				glDrawArrays(GL_QUADS, 0, 20);
+				glDisableClientState(GL_NORMAL_ARRAY);
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 				glDisableClientState(GL_VERTEX_ARRAY);
 				glPopMatrix();		
 			}
 		}
 	}
-	//glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);
 }

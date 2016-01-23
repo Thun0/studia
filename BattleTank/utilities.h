@@ -50,7 +50,6 @@ GLuint loadTexture(char* path)
 	// Create a buffer
 	data = new unsigned char[imageSize];
 
-	//fread(data, 1, 0x44, file);
 	// Read the actual data from the file into the buffer
 	fread(data, 1, imageSize, file);
 

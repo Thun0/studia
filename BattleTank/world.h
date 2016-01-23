@@ -7,6 +7,7 @@
 class World
 {
 	GLuint floorTexture;
+	GLuint wallTexture;
 	const static int MAP_SIZE;
 	const static int WALL_SIZE;
 	const static GLfloat vertices[];
