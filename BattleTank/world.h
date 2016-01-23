@@ -7,12 +7,16 @@
 class World
 {
 	GLuint floorTexture;
+	const static int MAP_SIZE;
+	const static int WALL_SIZE;
 	const static GLfloat vertices[];
 	const static GLfloat normals[];
 	const static GLfloat uvData[];
-	const static int map[10][10];
+	const static GLfloat World::wallVertices[];
+	const static GLfloat World::wallNormals[];
+	const static GLfloat World::uvWallData[];
+	const static int map[20][20];
 	void drawFloor();
-	void drawSkybox();
 	void drawMap();
 public:
 	void draw();

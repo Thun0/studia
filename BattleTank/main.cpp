@@ -4,8 +4,8 @@
 #include "tank.h"
 #include "world.h"
 
-const int WINDOW_WIDTH = 600;
-const int WINDOW_HEIGHT = 600;
+const int WINDOW_WIDTH = 900;
+const int WINDOW_HEIGHT = 900;
 
 void reshape(GLsizei w, GLsizei h);
 void draw();
@@ -142,7 +142,7 @@ void draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	gluLookAt(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	gluLookAt(0.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f);
 	world.draw();
 	tank.draw();
 

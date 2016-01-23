@@ -122,6 +122,7 @@ void Tank::init()
 void Tank::draw()
 {
 	glPushMatrix();
+	glScalef(0.5, 0.5, 0.5);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glTranslatef(x, 0, z);
 	drawHull();
