@@ -147,6 +147,7 @@ void World::draw()
 {
 	drawFloor();
 	drawMap();
+	drawProjectiles();
 }
 
 void World::drawFloor()
@@ -211,4 +212,16 @@ void World::drawMap()
 		}
 	}
 	glDisable(GL_TEXTURE_2D);
+}
+
+void World::drawProjectiles()
+{
+	for (int i = 0; i < projectiles.size(); ++i)
+		projectiles[i].draw();
+}
+
+void World::update(int delta)
+{
+	for (int i = 0; i < projectiles.size(); ++i)
+		projectiles[i].update(delta);
 }

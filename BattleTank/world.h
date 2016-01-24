@@ -13,18 +13,20 @@ class World
 	const static GLfloat vertices[];
 	const static GLfloat normals[];
 	const static GLfloat uvData[];
-	const static GLfloat World::wallVertices[];
-	const static GLfloat World::wallNormals[];
-	const static GLfloat World::uvWallData[];
+	const static GLfloat wallVertices[];
+	const static GLfloat wallNormals[];
+	const static GLfloat uvWallData[];
 	void drawFloor();
 	void drawMap();
+	void drawProjectiles();
 public:
-	static std::vector<Projectile> projectiles;
+	std::vector<Projectile> projectiles;
 	const static int MAP_SIZE;
 	const static int WALL_SIZE;
 	const static int map[20][20];
 	void draw();
 	void init();
+	void update(int);
 	World();
 	~World();
 };

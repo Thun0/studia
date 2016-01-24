@@ -115,6 +115,10 @@ void keyDown(unsigned char key, int x, int y)
 		camera[1] = false;
 		camera[2] = true;
 	}
+	if (key == ' ')
+	{
+		tank.shoot();
+	}
 }
 
 void specialUp(int key, int x, int y)
@@ -160,6 +164,7 @@ void specialDown(int key, int x, int y)
 void update(int delta)
 {
 	tank.update(delta);
+	world.update(delta);
 }
 
 void draw()

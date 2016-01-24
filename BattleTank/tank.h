@@ -45,6 +45,7 @@ public:
 	void turnTurretRight(bool);
 	void draw();
 	void update(int);
+	void shoot();
 	Tank();
 	~Tank();
 };

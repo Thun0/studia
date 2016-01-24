@@ -6,6 +6,8 @@
 
 float Tank::width = 1.5;
 
+extern World world;
+
 GLfloat Tank::hullVertices[] = {
 	-0.75, 1, -0.75,
 	0.75, 1, -0.75,
@@ -171,7 +173,7 @@ GLfloat Tank::uvTurretData[] = {
 
 GLfloat Tank::gunVertices[] = {
 	-0.15, 1.4, -0.15,
-	0.15, 1.5, -0.15,
+	0.15, 1.4, -0.15,
 	0.15, 1.4, 1.5,
 	-0.15, 1.4, 1.5,
 
@@ -450,6 +452,13 @@ void Tank::update(int delta)
 		newZ = z - sin(angle)*speed*delta;
 		checkCollisions(newX, newZ);
 	}
+}
+
+void Tank::shoot()
+{
+	Projectile p(x, z, hullAngle + turretAngle);
+	p.update(150);
+	world.projectiles.push_back(p);
 }
 
 Tank::~Tank()

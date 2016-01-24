@@ -6,17 +6,18 @@
 
 class Projectile
 {
+	const static GLfloat vertices[];
+	const static GLfloat normals[];
 	float angle;
-	static float speed;
+	float speed;
 	float x;
 	float y;
 	float z;
 public:
-	void init();
+	void checkCollision();
 	void draw();
 	void update(int);
-	Projectile();
-	~Projectile();
+	Projectile(float, float, float);
 };
 
 #endif
