@@ -88,41 +88,179 @@ GLfloat Tank::uvHullData[] = {
 };
 
 GLfloat Tank::turretVertices[] =	{
-										-1.5, 2, 1,
-										1.5, 2, 1,
-										1.5, 3, 1,
-										-1.5, 3, 1,
+	-0.4, 1.5, -0.4,
+	0.4, 1.5, -0.4,
+	0.4, 1.5, 0.4,
+	-0.4, 1.5, 0.4,
 
-										-1.5, 3, -1,
-										-1.5, 2, -1,
-										1.5, 2, -1,
-										1.5, 3, -1,
-									};
+	-0.4, 1, -0.4,
+	0.4, 1, -0.4,
+	0.4, 1.5, -0.4,
+	-0.4, 1.5, -0.4,
 
-GLfloat Tank::gunVertices[] =		{
-										-1.5, 2.25, 0.25,
-										-5, 2.25, 0.25,
-										-5, 2.75, 0.25,
-										-1.5, 2.75, 0.25,
+	-0.4, 1, 0.4,
+	0.4, 1, 0.4,
+	0.4, 1.5, 0.4,
+	-0.4, 1.5, 0.4,
 
-										-1.5, 2.75, -0.25,
-										-1.5, 2.25, -0.25,
-										-5, 2.25, -0.25,
-										-5, 2.75, -0.25,
-									};
+	-0.4, 1, -0.4,
+	-0.4, 1, 0.4,
+	-0.4, 1.5, 0.4,
+	-0.4, 1.5, -0.4,
+
+	0.4, 1, -0.4,
+	0.4, 1, 0.4,
+	0.4, 1.5, 0.4,
+	0.4, 1.5, -0.4,
+};
+
+GLfloat Tank::turretNormals[] = {
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+};
+
+GLfloat Tank::uvTurretData[] = {
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
 
 
-float Tank::turretSpeed = 0.20;
-float Tank::turnSpeed = 0.14;
-float Tank::speed = 0.01;
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+	
+	1, 0,
+	0, 0,
+	0, 0.5,
+	1, 0.5,
+
+	1, 0,
+	0, 0,
+	0, 0.5,
+	1, 0.5,
+};
+
+GLfloat Tank::gunVertices[] = {
+	-0.15, 1.4, -0.15,
+	0.15, 1.5, -0.15,
+	0.15, 1.4, 1.5,
+	-0.15, 1.4, 1.5,
+
+	-0.15, 1.1, -0.15,
+	0.15, 1.1, -0.15,
+	0.15, 1.4, -0.15,
+	-0.15, 1.4, -0.15,
+
+	-0.15, 1.1, 1.5,
+	0.15, 1.1, 1.5,
+	0.15, 1.4, 1.5,
+	-0.15, 1.4, 1.5,
+
+	-0.15, 1.1, -0.15,
+	-0.15, 1.1, 1.5,
+	-0.15, 1.4, 1.5,
+	-0.15, 1.4, -0.15,
+
+	0.15, 1.1, -0.15,
+	0.15, 1.1, 1.5,
+	0.15, 1.4, 1.5,
+	0.15, 1.4, -0.15,
+};
+
+GLfloat Tank::gunNormals[] = {
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+	0, 1, 0,
+
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+	0, 0, -1,
+
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+	0, 0, 1,
+
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+	-1, 0, 0,
+
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+	1, 0, 0,
+};
+
+GLfloat Tank::uvGunData[] = {
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+
+	0.5, 0.5,
+	0.5, 1,
+	1, 1,
+	1, 0.5,
+};
+
+float Tank::turretSpeed = 0.16;
+float Tank::turnSpeed = 0.11;
+float Tank::speed = 0.007;
 
 Tank::Tank()
 {}
 
 void Tank::init()
 {
-	hullAngle = 0;
-	turretAngle = 0;
+	hullAngle = -90;
+	turretAngle = -90;
 	x = -5;
 	z = 0;
 	isLeft = false;
@@ -132,18 +270,20 @@ void Tank::init()
 	turretRight = false;
 	turretLeft = false;
 	hullTexture = loadTexture("bmp/hull.bmp");
+	turretTexture = loadTexture("bmp/turret.bmp");
 }
 
 void Tank::draw()
 {
 	glTranslatef(x, 0, z);
 	drawHull();
-	//drawTurret();
-	//drawGun();
+	drawTurret();
+	drawGun();
 }
 
 void Tank::drawHull()
 {
+	glPushMatrix();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
@@ -158,7 +298,6 @@ void Tank::drawHull()
 	glNormalPointer(GL_FLOAT, 0, hullNormals);
 	glTexCoordPointer(2, GL_FLOAT, 0, uvHullData);
 
-	glPushMatrix();
 	glRotatef(hullAngle, 0.0, 1.0, 0.0);
 	glDrawArrays(GL_QUADS, 0, 20);
 
@@ -171,23 +310,55 @@ void Tank::drawHull()
 
 void Tank::drawTurret()
 {
-	glVertexPointer(3, GL_FLOAT, 0, turretVertices);
 	glPushMatrix();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnable(GL_TEXTURE_2D);
+	GLfloat params[] = { 1, 1, 1, 1 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+	glBindTexture(GL_TEXTURE_2D, turretTexture);
+	glVertexPointer(3, GL_FLOAT, 0, turretVertices);
+	glNormalPointer(GL_FLOAT, 0, turretNormals);
+	glTexCoordPointer(2, GL_FLOAT, 0, uvTurretData);
+
 	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
 	glColor3f(1, 0.0, 0.0);
 
 	glDrawArrays(GL_QUADS, 0, 20);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glPopMatrix();
 }
 
 void Tank::drawGun()
 {
-	glVertexPointer(3, GL_FLOAT, 0, gunVertices);
 	glPushMatrix();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnable(GL_TEXTURE_2D);
+	GLfloat params[] = { 1, 1, 1, 1 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+	glBindTexture(GL_TEXTURE_2D, turretTexture);
+	glVertexPointer(3, GL_FLOAT, 0, gunVertices);
+	glNormalPointer(GL_FLOAT, 0, gunNormals);
+	glTexCoordPointer(2, GL_FLOAT, 0, uvGunData);
+
 	glRotatef(turretAngle + hullAngle, 0.0, 1.0, 0.0);
-	glColor3f(1, 0.0, 0.8);
+	glColor3f(1, 0.0, 0.0);
 
 	glDrawArrays(GL_QUADS, 0, 20);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glPopMatrix();
 }
 
