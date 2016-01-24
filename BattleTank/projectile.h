@@ -14,9 +14,8 @@ class Projectile
 	float y;
 	float z;
 public:
-	void checkCollision();
 	void draw();
-	void update(int);
+	bool update(int);
 	Projectile(float, float, float);
 };
 

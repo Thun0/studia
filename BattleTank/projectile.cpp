@@ -1,7 +1,7 @@
 #include "projectile.h"
+#include "world.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
-
 const GLfloat Projectile::vertices[] = {
 	0, 1.2, 0,
 	0.1, 1.2, 0,
@@ -85,15 +85,25 @@ void Projectile::draw()
 	glPopMatrix();
 }
 
-void Projectile::update(int delta)
+bool Projectile::update(int delta)
 {
 	float rdangle = (angle)* M_PI / 180;
 	x -= cos(rdangle)*speed*delta;
 	z += sin(rdangle)*speed*delta;
-	checkCollision();
-}
 
-void Projectile::checkCollision()
-{
-
+	float width = 0.2;
+	for (int i = 0; i < World::MAP_SIZE; ++i)
+	{
+		for (int j = 0; j < World::MAP_SIZE; ++j)
+		{
+			if (World::map[i][j] == 0)
+				continue;
+			if (fabs(x - (j*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2
+				&& fabs(z - (i*World::WALL_SIZE - 20 + World::WALL_SIZE / 2)) < width / 2 + World::WALL_SIZE / 2)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }

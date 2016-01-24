@@ -223,5 +223,11 @@ void World::drawProjectiles()
 void World::update(int delta)
 {
 	for (int i = 0; i < projectiles.size(); ++i)
-		projectiles[i].update(delta);
+	{
+		if (projectiles[i].update(delta))
+		{
+			projectiles[i] = projectiles[projectiles.size() - 1];
+			projectiles.pop_back();
+		}
+	}
 }
