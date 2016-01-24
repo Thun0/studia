@@ -2,7 +2,7 @@
 
 void Light::init()
 {
-	intensity = 0.2;
+	intensity = 0.8;
 
 	glEnable(GL_LIGHTING);
 	glShadeModel(GL_SMOOTH);
@@ -15,7 +15,8 @@ void Light::update()
 {
 	GLfloat params[] = { intensity, intensity, intensity, intensity };
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, params);
-	GLfloat position[] = { -15, 10, 0, 1.0f };
+	//GLfloat position[] = { -15, 10, 0, 1.0f };
+	GLfloat position[] = { 20, 10, 20, 1.0f };
 	glLightfv(GL_LIGHT1, GL_POSITION, position);
 }
 

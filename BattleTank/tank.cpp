@@ -1,5 +1,6 @@
 #include "tank.h"
 #include "world.h"
+#include "utilities.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -9,27 +10,27 @@ GLfloat Tank::hullVertices[] = {
 	-0.75, 1, -0.75,
 	0.75, 1, -0.75,
 	0.75, 1, 0.75,
-	-0.75, 1, 0.75,		//gora
+	-0.75, 1, 0.75,		
 
 	-0.75, 0, -0.75,
 	0.75, 0, -0.75,
 	0.75, 1, -0.75,
-	-0.75, 1, -0.75,		//przod
+	-0.75, 1, -0.75,	
 
 	-0.75, 0, 0.75,
 	0.75, 0, 0.75,
 	0.75, 1, 0.75,
-	-0.75, 1, 0.75,		//tyl
+	-0.75, 1, 0.75,		
 
 	-0.75, 0, -0.75,
-	-0.75, 1, -0.75,
+	-0.75, 0, 0.75,		
 	-0.75, 1, 0.75,
-	-0.75, 0, 0.75,		//lewo
+	-0.75, 1, -0.75,
 
 	0.75, 0, -0.75,
-	0.75, 1, -0.75,
+	0.75, 0, 0.75,		
 	0.75, 1, 0.75,
-	0.75, 0, 0.75,		//prawo
+	0.75, 1, -0.75,
 };
 
 GLfloat Tank::hullNormals[] = {
@@ -57,6 +58,33 @@ GLfloat Tank::hullNormals[] = {
 	1, 0, 0,
 	1, 0, 0,
 	1, 0, 0,
+};
+
+GLfloat Tank::uvHullData[] = {
+	0, 0.4,
+	0.5, 0.4,
+	0.5, 0.5,
+	0, 0.5,
+
+	0, 0,
+	0.5, 0,
+	0.5, 0.4,
+	0, 0.4,
+
+	0, 0,
+	0.5, 0,
+	0.5, 0.4,
+	0, 0.4,
+
+	0.5, 0.6,
+	1, 0.6,
+	1, 1,
+	0.5, 1,
+
+	0.5, 0,
+	1, 0,
+	1, 0.4,
+	0.5, 0.4,
 };
 
 GLfloat Tank::turretVertices[] =	{
@@ -103,6 +131,7 @@ void Tank::init()
 	isBackward = false;
 	turretRight = false;
 	turretLeft = false;
+	hullTexture = loadTexture("bmp/hull.bmp");
 }
 
 void Tank::draw()
@@ -116,21 +145,26 @@ void Tank::draw()
 void Tank::drawHull()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnable(GL_TEXTURE_2D);
 
-	GLfloat params[] = { 0.5, 1, 1, 1 };
+	GLfloat params[] = { 1, 1, 1, 1 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, params);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, params);
+	glBindTexture(GL_TEXTURE_2D, hullTexture);
 
 	glVertexPointer(3, GL_FLOAT, 0, hullVertices);
 	glNormalPointer(GL_FLOAT, 0, hullNormals);
+	glTexCoordPointer(2, GL_FLOAT, 0, uvHullData);
 
 	glPushMatrix();
 	glRotatef(hullAngle, 0.0, 1.0, 0.0);
-	glColor3f(0.2, 0.7, 0.2);
-
 	glDrawArrays(GL_QUADS, 0, 20);
+
+	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glPopMatrix();	
 }

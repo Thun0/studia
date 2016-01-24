@@ -21,6 +21,7 @@ class Tank
 	static float turretSpeed;
 	static float turnSpeed;
 	static float speed;
+	GLuint hullTexture;
 	void drawHull();
 	void drawTurret();
 	void drawGun();
