@@ -6,8 +6,6 @@
 
 class Tank
 {
-	float hullAngle;
-	float turretAngle;
 	static float width;
 	static GLfloat hullVertices[];
 	static GLfloat hullNormals[];
@@ -26,8 +24,6 @@ class Tank
 	void drawHull();
 	void drawTurret();
 	void drawGun();
-	float x;
-	float z;
 	bool isForward;
 	bool isBackward;
 	bool isLeft;
@@ -36,6 +32,10 @@ class Tank
 	bool turretLeft;
 	void checkCollisions(float, float);
 public:
+	float hullAngle;
+	float turretAngle;
+	float x;
+	float z;
 	void init();
 	void forward(bool);
 	void backward(bool);

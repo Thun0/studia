@@ -4,6 +4,8 @@
 #include "tank.h"
 #include "world.h"
 #include "light.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 const int WINDOW_WIDTH = 900;
 const int WINDOW_HEIGHT = 900;
@@ -19,9 +21,9 @@ void update();
 Tank tank;
 World world;
 Light light;
-bool camera[3];
-
+bool camera[4];
 int oldTime = 0;
+float cy = 0;
 
 void init()
 {
@@ -97,23 +99,37 @@ void keyDown(unsigned char key, int x, int y)
 	{
 		tank.turnTurretRight(true);
 	}
+	if (key == 's')
+		cy++;
+	if (key == 'a')
+		cy--;
 	if (key == '1')
 	{
 		camera[0] = true;
 		camera[1] = false;
 		camera[2] = false;
+		camera[3] = false;
 	}
 	if (key == '2')
 	{
 		camera[0] = false;
 		camera[1] = true;
 		camera[2] = false;
+		camera[3] = false;
 	}
 	if (key == '3')
 	{
 		camera[0] = false;
 		camera[1] = false;
 		camera[2] = true;
+		camera[3] = false;
+	}
+	if (key == '4')
+	{
+		camera[0] = false;
+		camera[1] = false;
+		camera[2] = false;
+		camera[3] = true;
 	}
 	if (key == ' ')
 	{
@@ -183,6 +199,11 @@ void draw()
 		gluLookAt(0, 50, 20, 0, 0, 0, 0, 0, -1);
 	else if (camera[2])
 		gluLookAt(25, 50, 20, 0, 0, 0, 0, 1, 0);
+	else if (camera[3])
+	{
+		gluLookAt(tank.x + cos((tank.turretAngle + tank.hullAngle + 90) * M_PI / 180) * 4, 3, tank.z - sin((tank.turretAngle + tank.hullAngle + 90)* M_PI / 180) * 4,
+			tank.x - cos((tank.turretAngle + tank.hullAngle + 90) * M_PI / 180) * 10, cy, tank.z + sin((tank.turretAngle + tank.hullAngle + 90)* M_PI / 180) * 10, 0, 1, 0);
+	}
 	light.update();
 	world.draw();
 	tank.draw();

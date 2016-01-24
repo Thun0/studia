@@ -252,7 +252,7 @@ GLfloat Tank::uvGunData[] = {
 	1, 0.5,
 };
 
-float Tank::turretSpeed = 0.16;
+float Tank::turretSpeed = 0.14;
 float Tank::turnSpeed = 0.11;
 float Tank::speed = 0.007;
 
@@ -277,10 +277,12 @@ void Tank::init()
 
 void Tank::draw()
 {
+	glPushMatrix();
 	glTranslatef(x, 0, z);
 	drawHull();
 	drawTurret();
 	drawGun();
+	glPopMatrix();
 }
 
 void Tank::drawHull()

@@ -2,6 +2,9 @@
 #include "world.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+extern World world;
+
 const GLfloat Projectile::vertices[] = {
 	0, 1.2, 0,
 	0.1, 1.2, 0,
@@ -103,6 +106,16 @@ bool Projectile::update(int delta)
 			{
 				return true;
 			}
+		}
+	}
+	for (int i = 0; i < world.enemies.size(); ++i)
+	{
+		if (fabs(x - world.enemies[i].x) < width / 2 + Enemy::width / 2
+			&& fabs(z - world.enemies[i].z) < width + Enemy::width / 2)
+		{
+			world.enemies[i] = world.enemies[world.enemies.size() - 1];
+			world.enemies.pop_back();
+			return true;
 		}
 	}
 	return false;

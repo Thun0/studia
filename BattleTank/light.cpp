@@ -9,7 +9,7 @@ void Light::init()
 	GLfloat global_ambient[] = { 0.2, 0.2, 0.2, 0.2 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
 	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
+	//glEnable(GL_LIGHT1);
 }
 
 void Light::update()
